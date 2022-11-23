@@ -1,0 +1,9 @@
+django
+django-stubs-ext
+psycopg2-binary
+pillow
+djangorestframework
+drf-yasg[validation]
+markdown
+django-filter
+django-taggit

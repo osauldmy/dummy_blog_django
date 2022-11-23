@@ -1,0 +1,35 @@
+[
+  {
+    "model": "blog.post",
+    "pk": 1,
+    "fields": {
+      "title": "My first blog post",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "image": "blog/istockphoto-1180876101-612x612_tnZFzDV.jpg",
+      "published": "2022-11-19T20:55:55.699Z",
+      "last_modified": "2022-11-19T20:55:55.699Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 2,
+    "fields": {
+      "title": "Red-black tree",
+      "content": "In computer science, a red–black tree is a kind of self-balancing binary search tree. Each node stores an extra bit representing \"color\" (\"red\" or \"black\"), used to ensure that the tree remains balanced during insertions and deletions.[3]\r\n\r\nWhen the tree is modified, the new tree is rearranged and \"repainted\" to restore the coloring properties that constrain how unbalanced the tree can become in the worst case. The properties are designed such that this rearranging and recoloring can be performed efficiently.\r\n\r\nThe re-balancing is not perfect, but guarantees searching in O ( log ⁡ n ) O(\\log n) time, where n n is the number of entries. The insert and delete operations, along with the tree rearrangement and recoloring, are also performed in O ( log ⁡ n ) O(\\log n) time.[4]\r\n\r\nTracking the color of each node requires only one bit of information per node because there are only two colors. The tree does not contain any other data specific to it being a red–black tree, so its memory footprint is almost identical to that of a classic (uncolored) binary search tree. In many cases, the additional bit of information can be stored at no additional memory cost.",
+      "image": "blog/Red-black_tree_example_with_NIL.svg_duagTPx.png",
+      "published": "2022-11-19T20:58:38.609Z",
+      "last_modified": "2022-11-19T20:58:38.609Z"
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 3,
+    "fields": {
+      "title": "Post without image",
+      "content": "Dummy",
+      "image": "",
+      "published": "2022-11-19T20:59:14.250Z",
+      "last_modified": "2022-11-19T20:59:14.250Z"
+    }
+  }
+]

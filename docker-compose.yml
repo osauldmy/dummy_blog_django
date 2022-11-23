@@ -1,0 +1,81 @@
+---
+version: '3'
+
+services:
+  base-app: &base-app
+    build: .
+    image: django_blog # allows to build the image once, export it and re-use in next services
+    environment:
+      POSTGRES_HOST: db
+    env_file: .env
+    volumes:
+      - ./:/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+  migrate:
+    <<: *base-app
+    command: ./manage.py migrate
+
+  create-admin:
+    <<: *base-app
+    environment:
+      POSTGRES_HOST: db
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_PASSWORD: admin
+      DJANGO_SUPERUSER_EMAIL: admin@blog.com
+    command: ./manage.py createsuperuser --no-input
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  load-data:
+    <<: *base-app
+    environment:
+      POSTGRES_HOST: db
+    command: ./manage.py loaddata fixtures/tags.json fixtures/posts.json
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  app:
+    <<: *base-app
+    # command: gunicorn wsgi --bind 0.0.0.0:8000 TODO maybe
+    command: ./manage.py runserver 0.0.0.0:8000
+    ports:
+      - 127.0.0.1:8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      create-admin:
+        condition: service_started
+      load-data:
+        condition: service_started
+
+  test-app:
+    <<: *base-app
+    command: bash -c "
+      pip install -r requirements-test.txt &&
+      python -m pytest
+      "
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  db:
+    image: postgres:15
+    ports:
+      - 127.0.0.1:5432:5432
+    env_file: .env
+    healthcheck:
+      test: 'pg_isready -U $POSTGRES_USER'
+      interval: 1s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - ./postgres-data:/var/lib/postgresql

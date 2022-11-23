@@ -1,0 +1,56 @@
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "blog_project.settings"
+addopts = "-v --cov=blog"
+
+[tool.coverage.run]
+omit = ["__init__.py", "*migrations*", "*tests*"]
+
+[tool.coverage.report]
+skip_empty = true
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.flake8] # with `pyproject-flake8`, but called as `pflake8`
+max-line-length = 120  # ignore some very long lines like string or comments
+
+[tool.pylint.main]
+# somehow needed to set pythonpath for pylint manually, this is for CI/pre-commit
+init-hook = "import sys; sys.path.append('.')"
+load-plugins = ["pylint_django"]
+django-settings-module = "blog_project.settings"
+# or DJANGO_SETTINGS_MODULE=your.app.settings pylint --load-plugins pylint_django blog
+ignore = ["manage.py"]
+ignore-paths= [".*/migrations"]
+
+[tool.pylint.format]
+max-line-length = 120  # ignore some very long lines like string or comments
+
+[tool.pylint."messages control"]
+disable = [
+  "fixme",
+  "missing-module-docstring",
+  "missing-class-docstring",
+  "missing-function-docstring",
+]
+
+[tool.django-stubs]
+django_settings_module = "blog_project.settings"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+pretty = false
+
+warn_unused_configs = true
+warn_unused_ignores = true
+
+disallow_untyped_decorators = false
+allow_subclassing_any = true
+ignore_missing_imports = true
+
+plugins = ["mypy_django_plugin.main"]

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>{{post.title}}</title>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5 mb-5">
+  <div class="card" style="width: 50rem">
+    <div class="card-header text-center bg-light" style="width: 100%">
+      {% if post.image %}
+      <img src="{{post.image.url}}" class="img-fluid"/>
+      {% else %}
+      {% load static %}
+      <img src="{% static 'default.png' %}" class="img-thumbnail"/>
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <h1 class="card-title">{{post.title}}</h1>
+      <div class="row card-subtitle text-muted mt-4 mb-2">
+        <h6>Published: {{post.published}}</h6>
+        <h6>Last modified: {{post.last_modified}}</h6>
+      </div>
+
+      {% for tag in post.tags.all %}
+        <a
+          href="{% url 'posts' %}?tags={{tag.name}}"
+          class="text-decoration-none card-subtitle text-muted"
+        >
+          #{{tag.name}}
+        </a>
+      {% endfor %}
+
+      <article class="mt-3">{{post.content|linebreaks}}</article>
+    </div>
+  </div>
+</div>
+{% endblock %}
